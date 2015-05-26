@@ -1,0 +1,47 @@
+body {
+  font-family: 'Hind', sans-serif;
+  background-color: #E6E2AF;
+  color: #046380;
+  text-align: center;
+}
+
+h1, h2 {
+  margin-top: 20px;
+  font-weight: bold;
+  background-color: #002F2F;
+  color: #EFECCA;
+  padding-top: 7px;
+}
+
+p {
+  font-size: 12pt;
+}
+
+article {
+  background-color: rgb(167,163,126);
+  background-color: rgba(167,163,126,0.5);
+}
+
+img {
+  margin: 20px;
+}
+
+strong {
+  font-weight: bold;
+}
+
+#vs {
+  height: 125px;
+  margin-top: 10%;
+  font-size: 24pt;
+  font-weight: bold;
+  border: 2px solid #002F2F;
+  border-radius: 50%;
+  background-color: #002F2F;
+  color: #EFECCA;
+}
+
+.vote {
+  background-color: #002F2F;
+  color: #EFECCA;
+}
