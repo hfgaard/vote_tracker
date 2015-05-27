@@ -1,6 +1,8 @@
 $(function() {
   var photos = [];
   var firstPhoto, secondPhoto;
+  $first = $('#one');
+  $second = $('#two');
 
   function Photo(id) {
     this.id = id;
@@ -23,14 +25,14 @@ $(function() {
       this.secondPhoto = this.randomPhotos();
     }
 
-    $('#one').children().remove();
-    $('#one').removeClass('vote');
-    $('#two').children().remove();
-    $('#two').removeClass('vote');
-    $('#one').append('<img ' + photos[this.firstPhoto].src + ' ' + photos[this.firstPhoto].alt + ' />');
-    $('#one').append('<p>Votes: <strong class="firstVotes">' + photos[this.firstPhoto].totalVotes + '</strong></p>');
-    $('#two').append('<img ' + photos[this.secondPhoto].src + ' ' + photos[this.secondPhoto].alt + ' />');
-    $('#two').append('<p>Votes: <strong class="secondVotes">' + photos[this.secondPhoto].totalVotes + '</strong></p>');
+    $first.children().remove();
+    $first.removeClass('vote');
+    $second.children().remove();
+    $second.removeClass('vote');
+    $first.append('<img ' + photos[this.firstPhoto].src + ' ' + photos[this.firstPhoto].alt + ' />');
+    $first.append('<p>Votes: <strong class="firstVotes">' + photos[this.firstPhoto].totalVotes + '</strong></p>');
+    $second.append('<img ' + photos[this.secondPhoto].src + ' ' + photos[this.secondPhoto].alt + ' />');
+    $second.append('<p>Votes: <strong class="secondVotes">' + photos[this.secondPhoto].totalVotes + '</strong></p>');
   }
 
   for (var i = 0; i < 14; i++) {
@@ -45,18 +47,18 @@ $(function() {
     user.vote = false;
   });
 
-  $('#one').on('click', function(e) {
+  $first.on('click', function(e) {
     if (user.vote === false) {
-      $('#one').addClass('vote');
+      $first.addClass('vote');
       photos[user.firstPhoto].totalVotes++;
       $('.firstVotes').replaceWith(photos[user.firstPhoto].totalVotes);
       user.vote = true;
     }
   });
 
-  $('#two').on('click', function() {
+  $second.on('click', function() {
     if (user.vote === false) {
-      $('#two').addClass('vote');
+      $second.addClass('vote');
       photos[user.secondPhoto].totalVotes++;
       $('.secondVotes').replaceWith(photos[user.secondPhoto].totalVotes);
       user.vote = true;
