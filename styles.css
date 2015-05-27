@@ -45,3 +45,7 @@ strong {
   background-color: #002F2F;
   color: #EFECCA;
 }
+
+.hidden {
+  display: none;
+}
