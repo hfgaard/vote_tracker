@@ -1,12 +1,30 @@
 $(function() {
-  var photos = [];
-  var firstPhoto, secondPhoto;
+  var images, info, imagesLength, photos = [];
+  var user = new Tracker();
   $first = $('#one');
   $second = $('#two');
 
-  function Photo(id) {
-    this.id = id;
-    this.src = "src='cutestKittenContestants/" + this.id + ".jpg'";
+  $.ajax({
+    url: "https://api.imgur.com/3/album/ElaLY.json",
+    beforeSend: function(xhr) {
+      xhr.setRequestHeader('Authorization', 'Client-ID 49d9ff4f5253c99');
+    }
+  })
+    .done( function(data) {
+      info = data;
+      console.log(info.data.images);
+      images = info.data.images;
+      imagesLength = info.data.images_count;
+      initialize();
+      user.displayPhotos();
+  })
+    .fail( function() {
+      $('button').addClass("hidden");
+      $first.html("I'm sorry! The kittens are all napping at the moment. Please try again later!");
+  });
+
+  function Photo(url) {
+    this.src = "src=" + url;
     this.alt = "alt='Photo of a kitten'";
     this.totalVotes = Math.floor(Math.random() * 1500 + 1);
   }
@@ -15,16 +33,25 @@ $(function() {
     this.vote = false;
     this.randomPhotos = function() {
       return Math.floor(Math.random() * 14);
-    }
+    };
   }
+  
+  var initialize = function() {
+    for (var i = 0; i < imagesLength; i++) {
+      photos.push(new Photo(images[i].link));
+    }
+  };
 
-  Tracker.prototype.displayPhotos = function() {
+  Tracker.prototype.chooseRandomPhotos = function() {
     this.firstPhoto = this.randomPhotos();
     this.secondPhoto = this.randomPhotos();
     while (this.firstPhoto == this.secondPhoto) {
       this.secondPhoto = this.randomPhotos();
     }
+  };
 
+  Tracker.prototype.displayPhotos = function() {
+    this.chooseRandomPhotos();
     $first.children().remove();
     $first.removeClass('vote');
     $second.children().remove();
@@ -33,34 +60,25 @@ $(function() {
     $first.append('<p>Votes: <strong class="firstVotes">' + photos[this.firstPhoto].totalVotes + '</strong></p>');
     $second.append('<img ' + photos[this.secondPhoto].src + ' ' + photos[this.secondPhoto].alt + ' />');
     $second.append('<p>Votes: <strong class="secondVotes">' + photos[this.secondPhoto].totalVotes + '</strong></p>');
-  }
+  };
 
-  for (var i = 0; i < 14; i++) {
-    photos.push(new Photo(i + 1));
-  }
-
-  var user = new Tracker();
-  user.displayPhotos();
+  
 
   $('#vs').on('click', function(e) {
+    e.preventDefault();
     user.displayPhotos();
     user.vote = false;
   });
 
-  $first.on('click', function(e) {
+  $('section').on('click', function(e) {
+    e.preventDefault();
+    var $currentVote = ($(this).attr('id') == 'one') ? $first : $second;
+    var currentPhoto = ($(this).attr('id') == 'one') ? user.firstPhoto : user.secondPhoto;
+    var $totalVotes =  ($(this).attr('id') == 'one') ? $('.firstVotes') : $('.secondVotes');
     if (user.vote === false) {
-      $first.addClass('vote');
-      photos[user.firstPhoto].totalVotes++;
-      $('.firstVotes').replaceWith(photos[user.firstPhoto].totalVotes);
-      user.vote = true;
-    }
-  });
-
-  $second.on('click', function() {
-    if (user.vote === false) {
-      $second.addClass('vote');
-      photos[user.secondPhoto].totalVotes++;
-      $('.secondVotes').replaceWith(photos[user.secondPhoto].totalVotes);
+      $currentVote.addClass('vote');
+      photos[currentPhoto].totalVotes++;
+      $totalVotes.replaceWith(photos[currentPhoto].totalVotes);
       user.vote = true;
     }
   });
