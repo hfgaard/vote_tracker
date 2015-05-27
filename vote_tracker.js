@@ -1,6 +1,5 @@
 $(function() {
-  var photos = [];
-  var firstPhoto, secondPhoto;
+  var firstPhoto, secondPhoto, photos = [];
   $first = $('#one');
   $second = $('#two');
 
