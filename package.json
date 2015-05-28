@@ -1,0 +1,22 @@
+{
+  "name": "vote_tracker",
+  "version": "1.0.0",
+  "description": "This app allows you to vote on the cutest kitten given 2 pictures of kittens. It displays the number of votes each kitten currently has and allows the user to vote as many as times as they wish by pressing the \"VS\" button.",
+  "main": "vote_tracker.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hfgaard/vote_tracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hfgaard/vote_tracker/issues"
+  },
+  "homepage": "https://github.com/hfgaard/vote_tracker#readme",
+  "dependencies": {
+    "express": "^4.12.4"
+  }
+}
