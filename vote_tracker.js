@@ -10,9 +10,7 @@ $(function() {
       xhr.setRequestHeader('Authorization', 'Client-ID 49d9ff4f5253c99');
     }
   })
-    .done( function(data) {
-      info = data;
-      console.log(info.data.images);
+    .done( function(info) {
       images = info.data.images;
       imagesLength = info.data.images_count;
       initialize();
@@ -52,17 +50,13 @@ $(function() {
 
   Tracker.prototype.displayPhotos = function() {
     this.chooseRandomPhotos();
-    $first.children().remove();
-    $first.removeClass('vote');
-    $second.children().remove();
-    $second.removeClass('vote');
+    $('section').children().remove();
+    $('section').removeClass('vote');
     $first.append('<img ' + photos[this.firstPhoto].src + ' ' + photos[this.firstPhoto].alt + ' />');
     $first.append('<p>Votes: <strong class="firstVotes">' + photos[this.firstPhoto].totalVotes + '</strong></p>');
     $second.append('<img ' + photos[this.secondPhoto].src + ' ' + photos[this.secondPhoto].alt + ' />');
     $second.append('<p>Votes: <strong class="secondVotes">' + photos[this.secondPhoto].totalVotes + '</strong></p>');
   };
-
-  
 
   $('#vs').on('click', function(e) {
     e.preventDefault();
@@ -75,7 +69,7 @@ $(function() {
     var $currentVote = ($(this).attr('id') == 'one') ? $first : $second;
     var currentPhoto = ($(this).attr('id') == 'one') ? user.firstPhoto : user.secondPhoto;
     var $totalVotes =  ($(this).attr('id') == 'one') ? $('.firstVotes') : $('.secondVotes');
-    if (user.vote === false) {
+    if (!user.vote) {
       $currentVote.addClass('vote');
       photos[currentPhoto].totalVotes++;
       $totalVotes.replaceWith(photos[currentPhoto].totalVotes);
