@@ -4,6 +4,7 @@ var express = require('express');
 var http = require('http');
 var app = express();
 
+app.set('port', (process.env.PORT || 5000));
 app.use(express.static('vote'));
 
 app.get('/secret', function(req, res, next) {
@@ -15,8 +16,8 @@ app.use('/', function (req, res, next) {
     root: __dirname + '/vote/',
     dotfiles: 'deny',
     headers: {
-        'x-timestamp': Date.now(),
-        'x-sent': true
+      'x-timestamp': Date.now(),
+      'x-sent': true
     }
   };
 
@@ -31,9 +32,6 @@ app.use('/', function (req, res, next) {
   });
 });
 
-var server = app.listen(5000, function() {
-  var host = server.address().address;
-  var port = server.address().port;
-
-  console.log('Example app listening at http://%s:%s', host, port);
+app.listen((process.env.PORT || 5000), function() {
+  console.log('Node app is running on port', app.get('port'));
 });
